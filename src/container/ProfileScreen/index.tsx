@@ -117,7 +117,7 @@ const ProfileScreen = (props: any) => {
                                 <View style={styles.boxContainer}>
                                     <TouchableOpacity disabled onPress={() => NavigationService.navigate('FollowersScreen')} style={styles.box}>
                                         <View style={styles.boxLabel}>
-                                            <Text style={styles.boxLabelText}>Follower</Text>
+                                            <Text style={styles.boxLabelText}>Followers</Text>
                                         </View>
                                         <Text style={styles.boxText}>{others ? othersProfile.followersLength : profile.followersLength}</Text>
                                     </TouchableOpacity>

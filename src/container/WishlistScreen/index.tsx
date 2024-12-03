@@ -7,13 +7,13 @@ import {
     Animated,
     Easing
 } from 'react-native';
+import { requestMyWishlist, selectMyWishlist, selectIsLoading, selectError } from '../../ducks/wishlists';
 import styles from './styles';
 import { ProductListCard } from '../../components';
 import Images from '../../theme/Images';
 import WishlistItem from './interface';
 import { NavigationService } from '../../config';
 import { useDispatch, useSelector } from 'react-redux';
-import { requestGetWishlist, requestRemoveFromWishlist } from '../../ducks/products';
 import { useFocusEffect } from '@react-navigation/native';
 
 
@@ -28,9 +28,9 @@ const WishlistScreen = () => {
     const [page, setPage] = useState(1);
     const [buttonOpacity] = useState(new Animated.Value(0)); // Initialize button opacity animation value
     const [buttonPosition] = useState(new Animated.Value(0)); // Initialize button position animation value
-    const wishlistData = useSelector((state: any) => state.products.wishlistData)
-    const wishList  = useSelector((state: any) => state.products.wishlist)
-    const isAllDataLoaded  = useSelector((state: any) => state.products.isAllDataLoaded)
+    const wishList  = useSelector(selectMyWishlist);
+    const isLoading  = useSelector(selectIsLoading);
+    const error  = useSelector(selectError);
 
     useEffect(() => {
         // Animate button opacity when selectedItems change
@@ -51,18 +51,18 @@ const WishlistScreen = () => {
     }, [selectedItems]);
 
     const fetchWishlist = useCallback((reset = false) => {
-        if (!isAllDataLoaded || reset) {
-            dispatch(requestGetWishlist({ page: reset ? 1 : page, limit: 5, reset }));
+        if (!isLoading || reset) {
+            dispatch(requestMyWishlist({ page: reset ? 1 : page, limit: 5, reset }));
             if (reset) {
                 setPage(1); // Reset page counter if data is reset
             }
         }
-    }, [dispatch, page, isAllDataLoaded]);
+    }, [dispatch, page, isLoading]);
 
     useFocusEffect(
         useCallback(() => {
             fetchWishlist(true); // Pass true to reset the wishlist
-        }, [fetchWishlist])
+        }, [])
     );
 
     const toggleItemSelection = (item: WishlistItem) => {
@@ -89,9 +89,9 @@ const WishlistScreen = () => {
         setLongPressSelected(true);
     };
 
-    const handleDeleteItem = (itemId: string) => {
-        dispatch(requestRemoveFromWishlist({ id: itemId }));
-    };
+    // const handleDeleteItem = (itemId: string) => {
+    //     dispatch(requestRemoveFromWishlist({ id: itemId }));
+    // };
 
 
     const addToCart = () => {
@@ -100,7 +100,7 @@ const WishlistScreen = () => {
     };
 
     const onEndReached = () => {
-        if (!isAllDataLoaded) {
+        if (!isLoading) {
             setPage(prevPage => prevPage + 1);
         }
     };
@@ -113,7 +113,7 @@ const WishlistScreen = () => {
                 onPress={() => onPressHandler(item)}
                 onLongPress={() => longPressHandler(item)}
             >
-                <ProductListCard onPressDelete={(id: string) => handleDeleteItem(id)} item={item} isSelected={selectedItems.some((selectedItem) => selectedItem._id === item._id)} />
+                <ProductListCard onPressDelete={(id: string) => {}} item={item} isSelected={selectedItems.some((selectedItem) => selectedItem._id === item._id)} />
             </TouchableOpacity>
         );
     };

@@ -17,25 +17,32 @@ const ProductListCard: React.FC<ProductListCardProps> = ({ item, isSelected, onP
 
 	return (
 		<View style={[styles.cardContainer, isSelected && styles.selectedContainer]}>
-			<Image source={{uri: item.image}} resizeMode='cover' style={styles.imageContainer}/>
+			<Image source={{uri: item.product.image.src}} resizeMode='cover' style={styles.imageContainer}/>
 			<View style={styles.contentContainer}>
 				<View style={styles.row}>
-					<Text style={styles.titleText}>{item.productTitle}</Text>
+					<Text style={styles.titleText}>{item.product.title}</Text>
 					<TouchableOpacity onPress={() => onPressDelete(item._id)}>
 						<TrashIcon />
 					</TouchableOpacity>
 				</View>
 				<View style={styles.row}>
-					<Text style={styles.priceText}>{`$ ${item.price}`}</Text>
+					<Text style={styles.priceText}>{`$ ${item.selectedVariantIdPrice}`}</Text>
 					<TouchableOpacity style={styles.button}>
 						<Text style={styles.buttonText}>Visit Store</Text>
 					</TouchableOpacity>
 				</View>
-				<View style={styles.bottom}>
+				{
+				item.discountCode && 
+
+				(
+					<View style={styles.bottom}>
 					<Text style={styles.priceText}>{item.discountCode}</Text>
 					<Text style={styles.discountLabel}>Discount Code: </Text>
 					<DiscountIcon/>
 				</View>
+				)
+				}
+				
 			</View>
 		</View>
 	)

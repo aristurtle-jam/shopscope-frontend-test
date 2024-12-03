@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
 	cardContainer: {
 		flexDirection: 'row',
 		padding: 8,
-		margin: 16,
+		margin: 10,
 		borderRadius: 10,
 		shadowColor: "#000",
 		shadowOffset: {
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 	selectedContainer: {
 		flexDirection: 'row',
 		padding: 8,
-		margin: 16,
+		margin: 10,
 		borderRadius: 10,
 		backgroundColor: Colors.WHITE,
 		borderWidth: 1,
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		paddingHorizontal: 9,
+		marginRight: 10,
 		paddingTop: 5
 	},
 	titleText: {
