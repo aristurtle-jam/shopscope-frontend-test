@@ -37,6 +37,7 @@ const HomeScreen = () => {
             let payload = {
                 productId: productList.products[index].variants[0].product_id.toString(),
                 selectedVariantId: productList.products[index].variants[0].id.toString(),
+                tags: productList.products[index].tags,
             };
             dispatch(requestAddToWishlist(payload));
         }
@@ -120,6 +121,7 @@ const HomeScreen = () => {
                     productList?.products?.length ?
                         <>
                             <Swiper
+                                verticalSwipe={false}
                                 key={swiperKey}
                                 ref={swiperRef}
                                 cards={productList.products}

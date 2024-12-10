@@ -9,6 +9,7 @@ import { callRequest, callRequestFileUpload } from '../../utils/ApiSauce';
 import { NavigationService } from '../../config';
 import { showSnackbar } from '../snackbar';
 import { GET_PRODUCTS, GET_PRODUCTS_BY_ID, failureProducts, failureProductById, successProductById, successProducts, ADD_TO_WISHLIST, successAddToWishlist, failureAddToWishlist, GET_WISHLIST, successGetWishlist, failureGetWishlist, REMOVE_FROM_WISHLIST, successRemoveFromWishlist, failureRemoveFromWishlist, UPDATE_VARIANT, successUpdateVariant } from '.';
+import { tags } from 'react-native-svg/lib/typescript/xmlTags';
 
 
 
@@ -18,7 +19,7 @@ function* watchGetProducts(): any {
     console.log('PRODUCTS PAYLOAD: ', payload)
     try {
       let response = yield call(callRequest, API_GET_PRODUCTS, payload);
-      console.log('PRODUCTS RESPONSE: ', response)
+      // console.log('PRODUCTS RESPONSE: ', response)
 
       if (response) {
         yield put(successProducts({ productList: response, fromProductListScreen: payload.fromProductListScreen }));
@@ -49,7 +50,7 @@ function* watchAddToWishlist(): any {
   while (true) {
     const { payload } = yield take(ADD_TO_WISHLIST.REQUEST);
     try {
-      let response = yield call(callRequest, API_ADD_TO_WISHLIST, {productId: payload.productId, variantId: payload.selectedVariantId});
+      let response = yield call(callRequest, API_ADD_TO_WISHLIST, {productId: payload.productId, variantId: payload.selectedVariantId, tags: payload.tags});
       if (response.data) {
         yield put(successAddToWishlist())
         yield put(showSnackbar({ message: "Added to your wishlist.", type: "success" }));
