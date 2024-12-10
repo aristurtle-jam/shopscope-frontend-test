@@ -1,7 +1,7 @@
 
 export const IS_STAGING = false;
 
-export const STAGING_BASE_URL = 'http://16.170.236.223';
+export const STAGING_BASE_URL = 'http://192.168.1.8:3000';
 export const PRODUCTION_BASE_URL = 'http://13.60.18.207';
 export const X_API_TOKEN = 'token';
 
@@ -204,5 +204,11 @@ export const API_GET_ALL_ORDERS = {
     type: REQUEST_TYPE.GET,
 }
 
+// USERS API ROUTES
 
+export const API_GET_ALL_USERS = {
+    route: `${API}customer/all-users`, 
+    access_token_required: true,
+    type: REQUEST_TYPE.GET,
+  };
 

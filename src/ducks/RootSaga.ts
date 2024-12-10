@@ -5,6 +5,7 @@ import products from './products/saga';
 import posts from './posts/saga';
 import profile from './profile/saga';
 import order from './order/saga'
+import users from './users/saga';
 
 
 export default function* root() {
@@ -13,4 +14,5 @@ export default function* root() {
   yield fork(posts)
   yield fork(profile)
   yield fork(order)
+  yield fork(users)
 }

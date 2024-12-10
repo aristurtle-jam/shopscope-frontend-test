@@ -7,6 +7,7 @@ import posts from './posts';
 import profile from './profile';
 import cart from './cart';
 import order from './order';
+import users from './users';
 
 
 const appReducer = combineReducers({
@@ -16,7 +17,8 @@ const appReducer = combineReducers({
   posts,
   profile,
   cart,
-  order
+  order,
+  users
 });
 
 export default (state: any, action: any) => {
