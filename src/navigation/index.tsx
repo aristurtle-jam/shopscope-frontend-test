@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar, View, SafeAreaView } from 'react-native';
 import React, { useEffect } from 'react';
 import { NavigationService } from '../config';
-import { ChangePasswordScreen, CreateBlogScreen, DiscoverScreen, EditPostScreen, EditProfileScreen, FollowersScreen, FollowingScreen, ForgotPasswordScreen, HomeScreen, LikesScreen, LoginScreen, MyPosts, NotificationScreen, PostDetailScreen, ProductDetail, ProductListScreen, ProfileScreen, ResetPasswordScreen, SettingsScreen, SignupScreen, WishlistScreen } from '../container';
+import { CartScreen, ChangePasswordScreen, CheckoutScreen, CreateBlogScreen, DiscoverScreen, EditPostScreen, EditProfileScreen, FollowersScreen, FollowingScreen, ForgotPasswordScreen, HomeScreen, LikesScreen, LoginScreen, MyPosts, NotificationScreen, OrderDetailScreen, OrdersScreen, PostDetailScreen, ProductDetail, ProductListScreen, ProfileScreen, ResetPasswordScreen, SettingsScreen, SignupScreen, WishlistScreen } from '../container';
 import OTPScreen from '../container/OTPScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -126,6 +126,8 @@ const MainAppStack = () => {
     <Drawer.Navigator initialRouteName="Main" screenOptions={{ headerShown: false, drawerActiveBackgroundColor: Colors.BUTTON_GREY, drawerLabelStyle: { color: 'black' } }}>
       <Drawer.Screen name="Home" component={MainTabNavigator} />
       <Drawer.Screen name="Settings" component={SettingsScreen} />
+      <Drawer.Screen name="Orders" component={OrdersScreen} />
+
     </Drawer.Navigator>
   )
 }
@@ -190,9 +192,35 @@ const MainStack = () => {
           name="OtherUsersProfileScreen"
           component={ProfileScreen}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="NotificationScreen"
           component={NotificationScreen}
+        />
+        <Stack.Screen
+          name="CartScreen"
+          component={CartScreen}
+          // options={{
+          //   headerBackVisible: true,
+          //   headerShown: true,
+          //   headerTitle: 'Cart',
+          //   headerBackTitle: 'Back',
+          //   headerStyle: { backgroundColor: Colors.BACKGROUND },
+          // }}
+        />
+        <Stack.Screen
+          name="CheckoutScreen"
+          component={CheckoutScreen}
+        />
+         <Stack.Screen
+          name="OrderDetailScreen"
+          component={OrderDetailScreen}
+          // options={{
+          //   headerBackVisible: true,
+          //   headerShown: true,
+          //   headerTitle: 'Checkout',
+          //   // headerBackTitle: 'Back',
+          //   headerStyle: { backgroundColor: Colors.BACKGROUND },
+          // }}
         />
       </Stack.Navigator>
     </SafeAreaView>
@@ -203,6 +231,8 @@ const MainStack = () => {
 
 const AppContainer = () => {
   const isLoggedIn = useSelector((state: any) => state.auth.userLoggedIn)
+
+
   return (
     <View style={{ flex: 1 }}>
       <StatusBar

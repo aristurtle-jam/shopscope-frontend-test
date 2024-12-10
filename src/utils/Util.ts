@@ -31,3 +31,12 @@ export const timeAgo = (date: any) => {
     }
     return `${Math.floor(seconds)} seconds ago`;
 }
+
+export const isEmptyObject = (obj: object): boolean => {
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            return false;
+        }
+    }
+    return true;
+}

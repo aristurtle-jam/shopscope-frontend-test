@@ -7,11 +7,25 @@ import { NavigationService } from '../../config';
 import HeaderBack from '../../assets/icons/header-back.svg';
 import ShareIcon from '../../assets/icons/share.svg'
 import SettingsIcon from '../../assets/icons/settings-header.svg';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 const IconSize = 24;
 
 const AppHeader = ({ menu, back, rightComponent, share, setting, title, transparent }: { menu: boolean, back: boolean, rightComponent: boolean, share: boolean, setting: boolean, title: string, transparent: boolean }) => {
 
-	const onPressBack = () => NavigationService.goBack()
+	const navigation = useNavigation()
+	const onPressBack = () => {
+		console.log('Back pressed')
+        if (navigation.canGoBack()) {
+            NavigationService.goBack();
+        } else {
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'MainAppStack' }], // Replace 'Home' with your actual Home screen name
+                })
+            );
+        }
+    };
 	const onPressMenu = () => NavigationService.openDrawer()
 	const onPressShare = () => { console.log('share pressed') }
 	const onPressSettings = () => {NavigationService.navigate('SettingsScreen')}

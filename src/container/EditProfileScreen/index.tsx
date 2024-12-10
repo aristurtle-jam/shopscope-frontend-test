@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import {
-    View, Image, TouchableOpacity
+    View, Image, TouchableOpacity, Text
 } from 'react-native';
 import styles from './styles';
 import { AuthTextInput, CommunityList } from '../../components';
@@ -14,6 +14,9 @@ import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import * as ImagePicker from 'react-native-image-picker';
 import { requestUpdateProfile } from '../../ducks/profile';
+import Fonts from '../../theme/Fonts';
+import { FasterImageView } from '@candlefinance/faster-image';
+
 
 
 
@@ -83,7 +86,20 @@ const EditProfileScreen = () => {
             <View style={styles.view}>
                 <View style={styles.card}>
                     <View style={styles.profileImageView}>
-                        <Image source={{uri: image}} style={styles.profileImage} />
+                        {
+                            image && (image.includes('https://') || image.includes('http://')) ?
+                                <FasterImageView source={{
+                                    transitionDuration: 0.3,
+                                    borderRadius: 20,
+                                    cachePolicy: 'discWithCacheControl',
+                                    showActivityIndicator: true,
+                                    resizeMode: 'cover',
+                                    url: image
+                                }} style={styles.profileImage} /> :
+                                <View style={[styles.profileImage, { backgroundColor: 'black', justifyContent: 'center' }]}>
+                                    <Text style={{ color: 'white', textAlign: 'center', fontSize: Fonts.size.size_18, fontWeight: 'bold' }}>{image}</Text>
+                                </View>
+                        }
                         <TouchableOpacity onPress={onImageGalleryClick} style={styles.cameraIconView}>
                             <CameraIcon />
                         </TouchableOpacity>
@@ -91,7 +107,7 @@ const EditProfileScreen = () => {
                     <AuthTextInput icon={NameIcon} placeholder={'First Name'} value={firstName} onChangeText={onChangeFirstName} inputStyle={{ marginBottom: 14 }} />
                     <AuthTextInput icon={NameIcon} placeholder={'Last Name'} value={lastName} onChangeText={onChangeLastName} inputStyle={{ marginBottom: 14 }} />
                     {/* <AuthTextInput icon={EmailIcon} placeholder={'Last Name'} value={email} onChangeText={onChangeEmail} inputStyle={{ marginBottom: 14 }} /> */}
-                    <AuthTextInput icon={PhoneIcon} placeholder={'Mobile number'} value={phone} onChangeText={onChangePhone} inputStyle={{ marginBottom: 14 }} keyBoardType='phone-pad' />
+                    <AuthTextInput icon={PhoneIcon} placeholder={'Mobile number'} value={phone} onChangeText={onChangePhone} inputStyle={{ marginBottom: 14 }} keyBoardType='phone-pad' edit={true} />
                 </View>
                 <Button textColor='white' mode="contained" onPress={onPressSave} buttonColor={'black'} style={styles.button}>
                     SAVE

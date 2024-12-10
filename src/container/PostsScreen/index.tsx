@@ -9,14 +9,12 @@ const PostsScreen = () => {
     const dispatch = useDispatch();
     const [isFetching, setIsFetching] = useState(false);
     const allPosts = useSelector((state: any) => state.posts.allPosts);
-    console.log('TOTAL PAGES: ', allPosts.totalPages)
     const payload = {
         page: 1,
         limit: 5
     };
 
     const handleLoadMore = () => {
-        console.log('HANDLE LOAD MORE RUNNING')
         if (!isFetching && allPosts.currentPage < allPosts.totalPages) {
             setIsFetching(true);
             dispatch(requestGetAllPosts({ ...payload, page: allPosts.currentPage + 1 }));

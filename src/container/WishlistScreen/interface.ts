@@ -1,17 +1,11 @@
 
 interface WishlistItem {
     _id: number;
+    image: any; // You can specify the type of the image (e.g., string for image URI or any other appropriate type)
+    productTitle: string;
+    price: number;
+    discountCode: string;
     productId: number
-    product: {
-        title: string;
-        image: {
-            src: string;
-        };
-        vendor: string;
-    };
-    selectedVariantIdPrice: number;
-    discountCode?: string;
-    tags: string;
 }
 
 export default WishlistItem;

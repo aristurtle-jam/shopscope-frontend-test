@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import posts, { requestGetMyPosts, requestGetOthersPosts } from '../../ducks/posts';
 import { useFocusEffect } from '@react-navigation/native';
 import { requestFollowUser, requestMyProfile, requestOthersProfile, requestUnfollowUser } from '../../ducks/profile';
+import { FasterImageView } from '@candlefinance/faster-image';
 
 
 const ProfileScreen = (props: any) => {
@@ -98,12 +99,19 @@ const ProfileScreen = (props: any) => {
             <ScrollView style={styles.container} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
                 <View style={styles.profileContainer}>
                     <View style={styles.profileCardWrapper}>
-                        <ImageBackground resizeMode='stretch' source={Images.profileCover} style={[styles.profileCard, others && {height: 380}]}>
+                        <ImageBackground resizeMode='stretch' source={Images.profileCover} style={[styles.profileCard, others && { height: 380 }]}>
                             <View style={styles.profileDetailView}>
                                 <View style={styles.profileImageView}>
                                     {
                                         profileImage && (profileImage.includes('https://') || profileImage.includes('http://')) ?
-                                            <Image source={{ uri: profileImage }} style={styles.profileImage} /> :
+                                            <FasterImageView source={{
+                                                transitionDuration: 0.3,
+                                                borderRadius: 20,
+                                                cachePolicy: 'discWithCacheControl',
+                                                showActivityIndicator: true,
+                                                resizeMode: 'cover',
+                                                url: profileImage
+                                            }} style={styles.profileImage} /> :
                                             <View style={[styles.profileImage, { backgroundColor: 'black', justifyContent: 'center' }]}>
                                                 <Text style={{ color: 'white', textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>{profileImage}</Text>
                                             </View>
@@ -117,7 +125,7 @@ const ProfileScreen = (props: any) => {
                                 <View style={styles.boxContainer}>
                                     <TouchableOpacity disabled onPress={() => NavigationService.navigate('FollowersScreen')} style={styles.box}>
                                         <View style={styles.boxLabel}>
-                                            <Text style={styles.boxLabelText}>Followers</Text>
+                                            <Text style={styles.boxLabelText}>Follower</Text>
                                         </View>
                                         <Text style={styles.boxText}>{others ? othersProfile.followersLength : profile.followersLength}</Text>
                                     </TouchableOpacity>

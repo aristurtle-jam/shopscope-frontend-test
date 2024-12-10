@@ -1,7 +1,7 @@
 
-export const IS_STAGING = true;
+export const IS_STAGING = false;
 
-export const STAGING_BASE_URL = 'http://192.168.1.6:3000';
+export const STAGING_BASE_URL = 'http://16.170.236.223';
 export const PRODUCTION_BASE_URL = 'http://13.60.18.207';
 export const X_API_TOKEN = 'token';
 
@@ -62,6 +62,11 @@ export const API_GET_PRODUCTS = {
     access_token_required: true,
     type: REQUEST_TYPE.GET,
 }
+export const API_GET_PRODUCT_BY_ID = {
+    route: `${API}product`,
+    access_token_required: true,
+    type: REQUEST_TYPE.GET,
+}
 export const API_ADD_TO_WISHLIST = {
     route: `${API}wishlist/create`,
     access_token_required: true,
@@ -77,6 +82,12 @@ export const API_REMOVE_FROM_WISHLIST = {
     access_token_required: true,
     type: REQUEST_TYPE.DELETE,
 }
+export const API_UPDATE_VARIANT = {
+    route: `${API}wishlist/update-variant`,
+    access_token_required: true,
+    type: REQUEST_TYPE.POST,
+}
+
 
 // POST API ROUTES
 
@@ -171,6 +182,26 @@ export const API_UNFOLLOW_USER = {
     route: `${API}customer/un-follow`,
     access_token_required: true,
     type: REQUEST_TYPE.POST,
+}
+
+// ORDER API
+
+export const API_CREATE_ORDER = {
+    route: `${API}order/create-order`,
+    access_token_required: true,
+    type: REQUEST_TYPE.POST,
+}
+
+export const API_CREATE_ORDER_URL = {
+    route: `${API}order/create-order-url`,
+    access_token_required: true,
+    type: REQUEST_TYPE.POST,
+}
+
+export const API_GET_ALL_ORDERS = {
+    route: `${API}customer/orders/any`,
+    access_token_required: true,
+    type: REQUEST_TYPE.GET,
 }
 
 

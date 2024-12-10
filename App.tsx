@@ -23,6 +23,7 @@ import { ActivityIndicator, Provider as PaperProvider } from 'react-native-paper
 import DataHandler from './src/utils/DataHandler';
 import { MySnackbarComponent } from './src/components';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import ApplePayModule from './src/utils/ApplePayModule';
 
 
 
@@ -34,6 +35,15 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     flex: 1
   };
+
+  useEffect(() => {
+    ApplePayModule.initialize('3240f0eae70a81ae1f731e7559703dd2', '1e1360-33.myshopify.com').then((message) => {
+    })
+    .catch((error) => {
+      console.error('INIT ERROR: ',error);
+    });
+  }, []);
+
 
   const onStoreConfigure = (store: any) => {
     // set store
@@ -66,7 +76,7 @@ function App(): React.JSX.Element {
   return (
     <Provider store={storeState}>
       <PaperProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
+        <GestureHandlerRootView>
           <AppContainer />
           <MySnackbarComponent />
         </GestureHandlerRootView>

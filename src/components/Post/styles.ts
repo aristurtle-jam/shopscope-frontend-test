@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import Fonts from '../../theme/Fonts';
 import Colors from '../../theme/Colors';
+import { moderateScale, verticalScale } from 'react-native-size-matters';
 
 const styles = StyleSheet.create({
     container: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     profileImage: {
         width: 42,
         height: 42,
-        borderRadius: 50
+        // borderRadius: 50
     },
     profileTile: {
       flexDirection: 'row'
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     },
     postImage: {
         width: '100%',
-        height: 433,
+        height: verticalScale(450),
         alignSelf: 'center',
         marginTop: 10
     },

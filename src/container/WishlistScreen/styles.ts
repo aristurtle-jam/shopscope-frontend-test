@@ -22,11 +22,13 @@ const styles = StyleSheet.create({
     cartButton: {
         position: 'absolute',
         right: 20,
-        bottom: 40,
+        bottom: 0,
         backgroundColor: 'black',
         paddingHorizontal: 30,
         paddingVertical: 10,
-        borderRadius: 90
+        borderRadius: 90,
+        borderWidth: 2,
+        borderColor: 'white'
     },
     cartButtonText: {
         textAlign: 'center',

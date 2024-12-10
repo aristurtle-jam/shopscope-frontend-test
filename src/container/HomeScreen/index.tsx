@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import {
     Text,
     TouchableOpacity,
@@ -6,93 +6,87 @@ import {
     TextInput,
     Image,
     ActivityIndicator,
-    RefreshControl
 } from 'react-native';
 import styles from './styles';
-import MenuIcon from '../../assets/icons/menu.svg'
-import ShopscopeLogo from '../../assets/icons/header-logo.svg'
-import NotificationIcon from '../../assets/icons/notification.svg'
-import SwiperCancelIcon from '../../assets/icons/swiper-cancel.svg'
-import SwiperWishlist from '../../assets/icons/swiper-wishlist.svg'
-import SearchIcon from '../../assets/icons/search.svg'
+import MenuIcon from '../../assets/icons/menu.svg';
+import ShopscopeLogo from '../../assets/icons/header-logo.svg';
+import NotificationIcon from '../../assets/icons/notification.svg';
+import SwiperCancelIcon from '../../assets/icons/swiper-cancel.svg';
+import SwiperWishlist from '../../assets/icons/swiper-wishlist.svg';
+import SearchIcon from '../../assets/icons/search.svg';
 import { NavigationService } from '../../config';
-import Images from '../../theme/Images';
-import Swiper from 'react-native-deck-swiper';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestAddToWishlist, requestProducts } from '../../ducks/products';
 import Colors from '../../theme/Colors';
-import { ScrollView } from 'react-native-gesture-handler';
-import { showSnackbar } from '../../ducks/snackbar';
+import Swiper from 'react-native-deck-swiper';
 import { useFocusEffect } from '@react-navigation/native';
-import { requestGetNotifications } from '../../ducks/profile';
+import debounce from 'lodash.debounce';
 
 const HomeScreen = () => {
-
-    const dispatch = useDispatch()
-    const productList = useSelector((state: any) => state.products.productList.productList)
-    const isLoading = useSelector((state: any) => state.products.isLoading)
-    const [page, setPage] = useState(1)
-    const [swiperKey, setSwiperKey] = useState(0); // Added key to reset Swiper
-    const [refreshing, setRefreshing] = useState(false)
-
-
+    const dispatch = useDispatch();
+    const productList = useSelector((state: any) => state.products.productList.productList);
+    const isLoading = useSelector((state: any) => state.products.isLoading);
+    const [page, setPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [swiperKey, setSwiperKey] = useState(0);
+    const [refreshing, setRefreshing] = useState(false);
     const swiperRef: any = useRef(null);
 
     const handleSwipeRight = (index: number) => {
         if (swiperRef.current && productList?.products?.length > 0) {
-            // swiperRef.current.swipeRight();
             let payload = {
                 productId: productList.products[index].variants[0].product_id.toString(),
-                variantId: productList.products[index].variants[0].id.toString(),
-            }
-            dispatch(requestAddToWishlist(payload))
+                selectedVariantId: productList.products[index].variants[0].id.toString(),
+            };
+            dispatch(requestAddToWishlist(payload));
         }
     };
 
     const refreshProducts = () => {
-        setPage(1); // Reset the page number
-        setSwiperKey(prevKey => prevKey + 1); // Reset the Swiper key to force re-render
-        setRefreshing(true)
-        setTimeout(() => setRefreshing(false), 1000)
+        setPage(1);
+        setSwiperKey(prevKey => prevKey + 1);
+        setRefreshing(true);
+        setTimeout(() => setRefreshing(false), 1000);
+        fetchProducts();
     };
 
     const onSwipedAll = () => {
-        setPage(page + 1)
-    }
+        setPage(page + 1);
+    };
 
     const onTapCard = (cardIndex: number) => {
         const product = productList.products[cardIndex];
         NavigationService.navigate('ProductDetail', { product });
     };
 
-
-    useFocusEffect(
-        React.useCallback(() => {
-            const payload = {
-                page: 1,
-                limi: 5,
-            }
-            dispatch(requestGetNotifications(payload));
-        }, [])
-    )
-
-    useEffect(() => {
-        // Dispatch the action to load products when the component mounts
-        dispatch(requestProducts({
+    const fetchProducts = () => {
+        const payload = {
             page: page,
-            limit: 2
-        }));
-    }, [page]);
+            limit: 18,
+        };
+        if (searchQuery.trim() !== '') {
+            payload.search = searchQuery;
+        }
+        dispatch(requestProducts(payload));
+    };
+
+    // Debounced version of fetchProducts
+    const debouncedFetchProducts = useCallback(debounce(fetchProducts, 300), [searchQuery, page]);
 
     useEffect(() => {
-        // Reset swiper when new products are loaded
+        debouncedFetchProducts();
+        // Cancel the debounce on component unmount
+        return () => {
+            debouncedFetchProducts.cancel();
+        };
+    }, [page, searchQuery]);
+
+    useEffect(() => {
         if (productList && productList.products && productList.products.length > 0) {
-            swiperRef.current.jumpToCardIndex(0); // Reset card index
-            setSwiperKey(prevKey => prevKey + 1); // Change key to force re-render
+            swiperRef.current.jumpToCardIndex(0);
+            setSwiperKey(prevKey => prevKey + 1);
         }
     }, [productList]);
-
-
 
     return (
         <View style={styles.container}>
@@ -111,8 +105,13 @@ const HomeScreen = () => {
                 Find the best clothes for you
             </Text>
             <View style={styles.textInputContainer}>
-                <TextInput style={styles.inputField} placeholder='Search' />
-                <TouchableOpacity style={styles.searchButton}>
+                <TextInput
+                    style={styles.inputField}
+                    placeholder='Search'
+                    value={searchQuery}
+                    onChangeText={text => setSearchQuery(text)}
+                />
+                <TouchableOpacity style={styles.searchButton} onPress={fetchProducts}>
                     <SearchIcon />
                 </TouchableOpacity>
             </View>
@@ -130,7 +129,6 @@ const HomeScreen = () => {
                                     </View>
                                 )}
                                 onTapCard={onTapCard}
-                                onSwiped={(cardIndex) => console.log('Card swiped:', cardIndex)}
                                 onSwipedAll={onSwipedAll}
                                 onSwipedRight={handleSwipeRight}
                                 cardIndex={0}
@@ -140,7 +138,6 @@ const HomeScreen = () => {
                                 cardHorizontalMargin={0}
                                 cardStyle={{ height: '100%', width: '100%' }}
                                 containerStyle={{ marginTop: 10 }}
-                                verticalSwipe={false}
                             />
 
                             <TouchableOpacity onPress={() => swiperRef.current.swipeLeft()} style={styles.swiperCancelStyle}>
@@ -151,8 +148,6 @@ const HomeScreen = () => {
                                 <SwiperWishlist />
                             </TouchableOpacity>
                         </>
-
-
                         : <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <Text>No products available</Text>
                             <TouchableOpacity onPress={() => refreshProducts()}>
@@ -161,10 +156,8 @@ const HomeScreen = () => {
                         </View>
                 }
             </View>
-
-
         </View>
-    )
+    );
 };
 
 export default HomeScreen;

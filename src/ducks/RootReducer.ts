@@ -5,8 +5,8 @@ import snackbarReducer from './snackbar';
 import products from './products';
 import posts from './posts';
 import profile from './profile';
-import users from './users';
-import wishlists from './wishlists';
+import cart from './cart';
+import order from './order';
 
 
 const appReducer = combineReducers({
@@ -15,9 +15,8 @@ const appReducer = combineReducers({
   products,
   posts,
   profile,
-  users,
-  wishlists
-  // pushToken,
+  cart,
+  order
 });
 
 export default (state: any, action: any) => {

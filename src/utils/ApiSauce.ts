@@ -24,7 +24,6 @@ function getHeaders() {
 
     // set X-API-TOKEN
     const token = DataHandler.getStore().getState().auth.token;
-    console.log('TOKEN: ', token)
     defaultHeader.token = token;
     return defaultHeader;
 }

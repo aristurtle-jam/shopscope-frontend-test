@@ -22,6 +22,8 @@
 		141831CF2BC8ACEF0051E6F7 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 141831C62BC8ACEE0051E6F7 /* Inter-Bold.ttf */; };
 		141831D02BC8ACEF0051E6F7 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 141831C72BC8ACEF0051E6F7 /* Inter-Medium.ttf */; };
 		141831D12BC8ACEF0051E6F7 /* Inter-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 141831C82BC8ACEF0051E6F7 /* Inter-ExtraLight.ttf */; };
+		14FEC71A2C2322CD003BBB86 /* ApplePayModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FEC7192C2322CD003BBB86 /* ApplePayModule.swift */; };
+		14FEC71C2C232457003BBB86 /* ApplePayModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FEC71B2C232457003BBB86 /* ApplePayModule.m */; };
 		7699B88040F8A987B510C191 /* libPods-shopscope-shopscopeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-shopscope-shopscopeTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C86E4F8F917A4F5EB8DFAD7E /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4885E33DBA9E4A78AD9280B0 /* BootSplash.storyboard */; };
@@ -57,6 +59,10 @@
 		141831C62BC8ACEE0051E6F7 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Bold.ttf"; path = "../src/assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		141831C72BC8ACEF0051E6F7 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Medium.ttf"; path = "../src/assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
 		141831C82BC8ACEF0051E6F7 /* Inter-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-ExtraLight.ttf"; path = "../src/assets/fonts/Inter-ExtraLight.ttf"; sourceTree = "<group>"; };
+		14FEC7182C2322CD003BBB86 /* shopscope-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "shopscope-Bridging-Header.h"; sourceTree = "<group>"; };
+		14FEC7192C2322CD003BBB86 /* ApplePayModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePayModule.swift; sourceTree = "<group>"; };
+		14FEC71B2C232457003BBB86 /* ApplePayModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApplePayModule.m; sourceTree = "<group>"; };
+		14FEC71D2C240CDE003BBB86 /* shopscope.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = shopscope.entitlements; path = shopscope/shopscope.entitlements; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-shopscope-shopscopeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shopscope-shopscopeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-shopscope.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopscope.debug.xcconfig"; path = "Target Support Files/Pods-shopscope/Pods-shopscope.debug.xcconfig"; sourceTree = "<group>"; };
 		4885E33DBA9E4A78AD9280B0 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = shopscope/BootSplash.storyboard; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 		13B07FAE1A68108700A75B9A /* shopscope */ = {
 			isa = PBXGroup;
 			children = (
+				14FEC71D2C240CDE003BBB86 /* shopscope.entitlements */,
 				14182FEB2BC15F6400E0BB37 /* BootSplash.storyboard */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -140,6 +147,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				14FEC71B2C232457003BBB86 /* ApplePayModule.m */,
+				14FEC7192C2322CD003BBB86 /* ApplePayModule.swift */,
 				141831C22BC8ACEE0051E6F7 /* Inter-Black.ttf */,
 				141831C62BC8ACEE0051E6F7 /* Inter-Bold.ttf */,
 				141831C52BC8ACEE0051E6F7 /* Inter-ExtraBold.ttf */,
@@ -155,6 +164,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				14FEC7182C2322CD003BBB86 /* shopscope-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -239,7 +249,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1500;
 					};
 				};
 			};
@@ -437,7 +447,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				14FEC71C2C232457003BBB86 /* ApplePayModule.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				14FEC71A2C2322CD003BBB86 /* ApplePayModule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +468,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-shopscope-shopscopeTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -483,6 +496,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-shopscope-shopscopeTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = shopscopeTests/Info.plist;
@@ -509,9 +523,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = shopscope/shopscope.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = K24QJNV7H9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = shopscope/Info.plist;
@@ -528,6 +543,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.shopscope;
 				PRODUCT_NAME = shopscope;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "shopscope-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -540,9 +556,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = shopscope/shopscope.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = K24QJNV7H9;
 				INFOPLIST_FILE = shopscope/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -558,6 +575,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.shopscope;
 				PRODUCT_NAME = shopscope;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "shopscope-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -624,7 +642,10 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "$(inherited)  ";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -632,11 +653,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-Wl",
-					"-ld_classic",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -696,7 +713,10 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CFLAGS = "$(inherited)  ";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -704,11 +724,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-Wl",
-					"-ld_classic",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

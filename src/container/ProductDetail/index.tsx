@@ -7,17 +7,26 @@ import HeartButton from '../../assets/icons/heart-button.svg';
 import { formatDescription } from '../../utils/Util';
 import RenderHtml from 'react-native-render-html';
 import BottomSheet from '@gorhom/bottom-sheet';
+import { useDispatch } from 'react-redux';
+import { requestAddToWishlist } from '../../ducks/products';
+import { requestAddToCart, successAddToCart } from '../../ducks/cart';
+import { showSnackbar } from '../../ducks/snackbar';
 
 
 
 const ProductDetail = (props: any) => {
 
+    const dispatch = useDispatch()
+    const product = props.route.params.product
+
+
     const bottomSheetRef = useRef(null);
     const snapPoints = useMemo(() => ['30%', '50%', '100%'], []);
-
-    const product = props.route.params.product
+    const [selectedSize, setSelectedSize] = useState<any>(product.variants[0].title);
+    const [selectedVariant, setSelectedVariant] = useState<any>(product.variants[0])
+    const [selectedProductId, setSelectedProductId] = useState<any>(product.variants[0].product_id)
     const sale = true
-    const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+    const sizes = product.variants ? product.variants : [];
     const productDetails = [
         { id: '1', leftText: 'Color', rightText: 'Black & Camel' },
         { id: '2', leftText: 'Length', rightText: 'Maxi/Full Length' },
@@ -25,10 +34,11 @@ const ProductDetail = (props: any) => {
         { id: '4', leftText: 'Sleeve Length', rightText: 'Sleeveless' },
         { id: '5', leftText: 'Sleeve', rightText: 'Sleeveless' },
     ];
-    const [selectedSize, setSelectedSize] = useState('S');
 
-    const handleSizePress = (size: string) => {
-        setSelectedSize(size);
+    const handleSizePress = (item: any) => {
+        setSelectedSize(item.title);
+        setSelectedVariant(item)
+        setSelectedProductId(item.product_id)
     };
 
     const renderSeparator = () => <View style={styles.separator} />;
@@ -39,6 +49,30 @@ const ProductDetail = (props: any) => {
         </View>
     );
 
+    const addToWish = () => {
+        let payload = {
+            productId: selectedProductId.toString(),
+            selectedVariantId: selectedVariant.id.toString(),
+        }
+        dispatch(requestAddToWishlist(payload))
+    }
+
+    const addToCart = () => {
+        let payload = {
+            createdAt: product.created_at,
+            image: product.image.src,
+            price: selectedVariant.price,
+            productId: selectedVariant?.product_id?.toString(),
+            productTitle: product.title,
+            quantity: 1,
+            updatedAt: selectedVariant.updated_at,
+            selectedVariantId: selectedVariant?.id?.toString()
+        }
+        
+        dispatch(successAddToCart({product: payload}))
+        dispatch(showSnackbar({ message: "Added to cart", type: 'info' }));
+
+    }
     return (
         <View style={styles.container}>
             <AppHeader menu={false} back={true} rightComponent={false} share={true} setting={false} title={''} />
@@ -65,29 +99,35 @@ const ProductDetail = (props: any) => {
                         {sale && <Text style={styles.priceCut}>${`${'350'}`}</Text>}
                     </View>
                     <View style={styles.buttonsView}>
-                        <TouchableOpacity style={styles.wishButton}>
+                        <TouchableOpacity onPress={addToWish} style={styles.wishButton}>
                             <Text style={styles.wishButtonText}>Add To Wish</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.storeButton}>
-                            <Text style={styles.storeButtonText}>Visit Store</Text>
+                        <TouchableOpacity onPress={addToCart} style={styles.storeButton}>
+                            <Text style={styles.storeButtonText}>Add to Cart</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.divider} />
                     <ScrollView>
                         <Text style={styles.label}>Size</Text>
                         <View style={styles.flatListContainer}>
-                            <FlatList style={{ alignSelf: 'center' }} ItemSeparatorComponent={renderSeparator} keyExtractor={(item, index) => index.toString()} horizontal data={sizes} renderItem={({ item }) => {
-                                return (
-                                    <TouchableOpacity style={[
-                                        styles.sizeButton,
-                                        selectedSize === item && styles.selectedSizeButton,
-                                    ]}
-                                        onPress={() => handleSizePress(item)}>
-                                        <Text style={[styles.sizeText, selectedSize === item && styles.selectedSizeText]}>
-                                            {item}</Text>
-                                    </TouchableOpacity>
-                                )
-                            }} />
+                            {sizes.length <= 0 ? <Text>No sizes available</Text> :
+                                <FlatList style={{ alignSelf: 'center' }}
+                                    ItemSeparatorComponent={renderSeparator}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    horizontal data={sizes}
+                                    renderItem={({ item }) => {
+                                        return (
+                                            <TouchableOpacity style={[
+                                                styles.sizeButton,
+                                                selectedSize === item.title && styles.selectedSizeButton,
+                                            ]}
+                                                onPress={() => handleSizePress(item)}>
+                                                <Text style={[styles.sizeText, selectedSize === item.title && styles.selectedSizeText]}>
+                                                    {item.title}</Text>
+                                            </TouchableOpacity>
+                                        )
+                                    }} />
+                            }
                         </View>
                         {/* <Text style={styles.label}>Product Details</Text>
                         <FlatList keyExtractor={(item: any) => item.id} data={productDetails} renderItem={renderProductDetails} />

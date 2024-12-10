@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { requestDeletePost, requestPostDisike, requestPostLike } from '../../ducks/posts';
 import DataHandler from '../../utils/DataHandler';
 import { timeAgo } from '../../utils/Util';
+import { requestProductsById } from '../../ducks/products';
+import { FasterImageView } from '@candlefinance/faster-image';
 
 
 const Post = ({ item, detail, myProfile, postLikes, myLike }: { item: any, detail: boolean, myProfile: boolean, postLikes?: number, myLike?: boolean }) => {
@@ -26,6 +28,7 @@ const Post = ({ item, detail, myProfile, postLikes, myLike }: { item: any, detai
     const [likes, setLikes] = useState(detail ? postLikes : post.likes)
     const [isLikedByUser, setIsLikedByUser] = useState(detail ? myLike : post.isLikedByUser)
     const currentUserId = useSelector((state: any) => state.profile.myProfile._id)
+    const isLoadingProduct = useSelector((state: any) => state.products.isLoading)
     const otherUser = post.customerId._id !== currentUserId
 
     const handleDeleteItem = () => {
@@ -36,9 +39,18 @@ const Post = ({ item, detail, myProfile, postLikes, myLike }: { item: any, detai
 
     const closeMenu = () => setVisible(false);
 
+    const onPressProduct = (item: any) => {
+        const payload = {
+            id: item.id
+        }
+        dispatch(requestProductsById(payload))
+    }
+
     const renderSmallImageItem = ({ item, index }: { item: any, index: number }) => {
         return (
-            <Image source={{ uri: item.image }} style={{ width: 80, height: 80, borderRadius: 10 }} />
+            <TouchableOpacity onPress={() => onPressProduct(item)}>
+                <Image source={{ uri: item.image }} style={{ width: 80, height: 80, borderRadius: 10 }} />
+            </TouchableOpacity>
         );
     };
 
@@ -78,8 +90,15 @@ const Post = ({ item, detail, myProfile, postLikes, myLike }: { item: any, detai
                     <TouchableOpacity onPress={() => otherUser ? NavigationService.navigate('OtherUsersProfileScreen', { otherUser: otherUser, userInfo: post.customerId._id }) : NavigationService.navigate('ProfileScreen')} style={styles.profileTile}>
                         {
                             post.customerId.profile && (post.customerId.profile.includes('https://') || post.customerId.profile.includes('http://')) ?
-                                <Image source={{ uri: post.customerId.profile }} style={styles.profileImage} /> :
-                                <View style={[styles.profileImage, { backgroundColor: 'black', justifyContent: 'center' }]}>
+                                <FasterImageView source={{
+                                    transitionDuration: 0.3,
+                                    borderRadius: 20,
+                                    cachePolicy: 'discWithCacheControl',
+                                    showActivityIndicator: true,
+                                    resizeMode: 'cover',
+                                    url: post.customerId.profile
+                                }} style={styles.profileImage} /> :
+                                <View style={[styles.profileImage, { backgroundColor: 'black', justifyContent: 'center', borderRadius: 50 }]}>
                                     <Text style={{ color: 'white', textAlign: 'center', fontSize: 14, fontWeight: 'bold' }}>{post.customerId.profile}</Text>
                                 </View>
                         }
@@ -100,7 +119,15 @@ const Post = ({ item, detail, myProfile, postLikes, myLike }: { item: any, detai
                         </Menu>
                     </View>}
                 </View>
-                <Image source={{ uri: post.thumbNail }} resizeMode='cover' style={styles.postImage} />
+                <FasterImageView
+                    source={{
+                        transitionDuration: 0.3,
+                        borderRadius: 0,
+                        cachePolicy: 'discWithCacheControl',
+                        showActivityIndicator: true,
+                        url: post.thumbNail,
+                        resizeMode: 'cover'
+                    }} style={styles.postImage} />
                 <FlatList
                     data={post.products}
                     horizontal

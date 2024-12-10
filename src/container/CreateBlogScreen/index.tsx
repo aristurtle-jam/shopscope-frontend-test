@@ -95,7 +95,7 @@ const CreateBlogScreen = (props: any) => {
         products.forEach((product, index) => {
             formData.append(`products[${index}][id]`, product.productId.toString());
             formData.append(`products[${index}][image]`, product.productImage);
-            formData.append(`products[${index}][variantId]`, product.productVariantId.toString());
+            formData.append(`products[${index}][selectedVariantId]`, product.productVariantId.toString());
             formData.append(`products[${index}][imageId]`, product.productImageId.toString());
         });
         dispatch(requestCreatePost(formData));
@@ -107,7 +107,7 @@ const CreateBlogScreen = (props: any) => {
         products.forEach((product, index) => {
             formData.append(`products[${index}][id]`, product.id ? product?.id.toString() : product.productId.toString());
             formData.append(`products[${index}][image]`, product.image ? product?.image : product.productImage);
-            formData.append(`products[${index}][variantId]`, product?.variantId ? product?.variantId.toString() : product.productVariantId.toString());
+            formData.append(`products[${index}][selectedVariantId]`, product?.selectedVariantId ? product?.selectedVariantId.toString() : product.productVariantId.toString());
             formData.append(`products[${index}][imageId]`, product?.imageId ? product?.imageId.toString() : product.productImageId.toString());
         });
         dispatch(requestEditPost({ formData: formData, id: postDetails._id }));

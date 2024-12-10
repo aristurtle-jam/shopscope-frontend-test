@@ -17,6 +17,7 @@ import Cross from '../../assets/icons/image-cross.svg';
 import { NavigationService } from '../../config';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestCreatePost, requestEditPost } from '../../ducks/posts';
+import { FasterImageView } from '@candlefinance/faster-image';
 
 
 
@@ -96,7 +97,7 @@ const EditPostScreen = (props: any) => {
         products.forEach((product, index) => {
             formData.append(`products[${index}][id]`, product.productId.toString());
             formData.append(`products[${index}][image]`, product.productImage);
-            formData.append(`products[${index}][variantId]`, product.productVariantId.toString());
+            formData.append(`products[${index}][selectedVariantId]`, product.productVariantId.toString());
             formData.append(`products[${index}][imageId]`, product.productImageId.toString());
         });
         dispatch(requestCreatePost(formData));
@@ -112,7 +113,7 @@ const EditPostScreen = (props: any) => {
         products.forEach((product, index) => {
             formData.append(`products[${index}][id]`, product.id ? product?.id.toString() : product.productId.toString());
             formData.append(`products[${index}][image]`, product.image ? product?.image : product.productImage);
-            formData.append(`products[${index}][variantId]`, product?.variantId ? product?.variantId.toString() : product.productVariantId.toString());
+            formData.append(`products[${index}][selectedVariantId]`, product?.selectedVariantId ? product?.selectedVariantId.toString() : product.productVariantId.toString());
             formData.append(`products[${index}][imageId]`, product?.imageId ? product?.imageId.toString() : product.productImageId.toString());
         });
         dispatch(requestEditPost({ formData: formData, id: postDetails._id }));
@@ -125,7 +126,14 @@ const EditPostScreen = (props: any) => {
                 <View style={styles.profileView}>
                     {
                         userProfile.profile && (userProfile.profile.includes('https://') || userProfile.profile.includes('http://')) ?
-                            <Image source={{ uri: userProfile.profile }} style={styles.profileImage} /> :
+                            <FasterImageView source={{
+                                transitionDuration: 0.3,
+                                borderRadius: 20,
+                                cachePolicy: 'discWithCacheControl',
+                                showActivityIndicator: true,
+                                resizeMode: 'cover',
+                                url: userProfile.profile
+                            }} style={styles.profileImage} /> :
                             <View style={[styles.profileImage, { backgroundColor: 'black', justifyContent: 'center' }]}>
                                 <Text style={{ color: 'white', textAlign: 'center', fontSize: 14, fontWeight: 'bold' }}>{userProfile.profile}</Text>
                             </View>

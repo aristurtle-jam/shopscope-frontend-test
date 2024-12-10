@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
 	cardContainer: {
 		flexDirection: 'row',
 		padding: 8,
-		margin: 10,
+		margin: 16,
 		borderRadius: 10,
 		shadowColor: "#000",
 		shadowOffset: {
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 	selectedContainer: {
 		flexDirection: 'row',
 		padding: 8,
-		margin: 10,
+		margin: 16,
 		borderRadius: 10,
 		backgroundColor: Colors.WHITE,
 		borderWidth: 1,
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		paddingHorizontal: 9,
-		marginRight: 10,
 		paddingTop: 5
 	},
 	titleText: {
@@ -54,7 +53,18 @@ const styles = StyleSheet.create({
 	button: {
 		backgroundColor: 'black',
 		marginTop: 5,
-		borderRadius: 90
+		borderRadius: 90,
+		width: 140,
+		paddingVertical: 2,
+		alignItems: 'center'
+	},
+	greyButton: {
+		backgroundColor: Colors.TEXT_GREY_2,
+		marginTop: 5,
+		borderRadius: 90,
+		width: 140,
+		paddingVertical: 2,
+		alignItems: 'center'
 	},
 	buttonText: {
 		color: Colors.WHITE,
@@ -71,7 +81,72 @@ const styles = StyleSheet.create({
 	},
 	discountLabel: {
 		color: Colors.TEXT_GREY_2
-	}
+	},
+	buttonPosition: {
+		position: 'absolute',
+		bottom: 10,
+		right: 10
+	},
+	removeButtonStyle: {
+		backgroundColor: '#FF5733',
+		marginTop: 5,
+		borderRadius: 90,
+		width: 100,
+		paddingVertical: 2,
+		alignItems: 'center'
+	},
+	counter: {
+		fontSize: 20,
+		alignSelf: 'center',
+		textAlign: 'center'
+	},
+
+	//DROPDOWN STYLE
+
+	dropdown: {
+		marginTop: 16,
+		height: 10,
+		width: "100%",
+		backgroundColor: 'white',
+		borderRadius: 12,
+		padding: 12,
+		shadowColor: '#000',
+		shadowOffset: {
+		  width: 0,
+		  height: 1,
+		},
+		shadowOpacity: 0.2,
+		shadowRadius: 1.41,
+		// alignSelf: 'flex-start',
+		elevation: 2,
+	  },
+	  icon: {
+		marginRight: 5,
+	  },
+	  item: {
+		padding: 10,
+		flexDirection: 'row',
+		alignItems: 'center',
+	  },
+	  textItem: {
+		flex: 1,
+		fontSize: 12,
+		textAlign: 'center'
+	  },
+	  placeholderStyle: {
+		fontSize: 16,
+	  },
+	  selectedTextStyle: {
+		fontSize: 12,
+	  },
+	  iconStyle: {
+		width: 20,
+		height: 20,
+	  },
+	  inputSearchStyle: {
+		height: 40,
+		fontSize: 16,
+	  },
 });
 
 export default styles;

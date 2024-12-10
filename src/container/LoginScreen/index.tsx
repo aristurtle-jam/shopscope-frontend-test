@@ -5,7 +5,9 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
-    ScrollView
+    ScrollView,
+    Keyboard,
+    TouchableWithoutFeedback
 } from 'react-native';
 import { AuthTextInput, AuthWrapper } from '../../components';
 import styles from './styles';
@@ -36,11 +38,10 @@ const LoginScreen = () => {
     }
 
     const onPressLogin = () => {
-        if (!email.trim() || !password.trim() )
-        {
+        if (!email.trim() || !password.trim()) {
             dispatch(showSnackbar({ message: "All fields are required.", type: 'error' }));
         }
-        let payload = {email, password}
+        let payload = { email, password }
         dispatch(requestLogin(payload))
     }
 
@@ -53,38 +54,45 @@ const LoginScreen = () => {
     }
 
     return (
-        <AuthWrapper>
-            <Text style={styles.title}>
-                Welcome to Login
-            </Text>
-            <Text style={styles.subtitle}>
-                Please Login your account
-            </Text>
-
-            <AuthTextInput icon={EmailIcon} placeholder={'Email'} value={email} onChangeText={onChangeEmail} keyBoardType='email-address' inputStyle={{ marginBottom: 14 }} />
-            <AuthTextInput icon={PasswordIcon} placeholder={'Password'} value={password} onChangeText={onChangePassword} password={true} />
-            <TouchableOpacity onPress={onPressForgotPassword}>
-                <Text style={styles.forgotPassword}>Forgot Password</Text>
-            </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                style={{ flex: 1 }}>
-                <Button textColor='white' mode="contained" onPress={onPressLogin} buttonColor={'black'} style={styles.button}>
-                    LOG IN
-                </Button>
-            </KeyboardAvoidingView>
-
-            <View style={styles.footerTextView}>
-                <Text style={styles.greyText}>
-                    Don’t have an account?
-                </Text>
-                <TouchableOpacity onPress={onPressSignup}>
-                    <Text style={styles.signup}>
-                        Sign Up
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
+            >
+                <AuthWrapper>
+                    <Text style={styles.title}>
+                        Welcome to Login
                     </Text>
-                </TouchableOpacity>
-            </View>
-        </AuthWrapper>
+                    <Text style={styles.subtitle}>
+                        Please Login your account
+                    </Text>
+
+                    <AuthTextInput icon={EmailIcon} placeholder={'Email'} value={email} onChangeText={onChangeEmail} keyBoardType='email-address' inputStyle={{ marginBottom: 14 }} />
+                    <AuthTextInput icon={PasswordIcon} placeholder={'Password'} value={password} onChangeText={onChangePassword} password={true} />
+                    <TouchableOpacity onPress={onPressForgotPassword}>
+                        <Text style={styles.forgotPassword}>Forgot Password</Text>
+                    </TouchableOpacity>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                        style={{ flex: 1 }}>
+                        <Button textColor='white' mode="contained" onPress={onPressLogin} buttonColor={'black'} style={styles.button}>
+                            LOG IN
+                        </Button>
+                    </KeyboardAvoidingView>
+
+                    <View style={styles.footerTextView}>
+                        <Text style={styles.greyText}>
+                            Don’t have an account?
+                        </Text>
+                        <TouchableOpacity onPress={onPressSignup}>
+                            <Text style={styles.signup}>
+                                Sign Up
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </AuthWrapper>
+            </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     )
 };
 

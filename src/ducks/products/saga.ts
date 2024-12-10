@@ -3,20 +3,23 @@ import { take, put, fork, call, takeLatest } from 'redux-saga/effects';
 import {
   API_FORGOT_PASSWORD,
   API_GET_PRODUCTS,
-  API_LOGIN, API_LOGOUT, API_RESET_PASSWORD, API_SIGNUP, API_VERIFY_OTP, API_ADD_TO_WISHLIST, API_GET_WISHLIST, API_REMOVE_FROM_WISHLIST
+  API_LOGIN, API_LOGOUT, API_RESET_PASSWORD, API_SIGNUP, API_VERIFY_OTP, API_ADD_TO_WISHLIST, API_GET_WISHLIST, API_REMOVE_FROM_WISHLIST, API_GET_PRODUCT_BY_ID, API_UPDATE_VARIANT
 } from '../../config/webService';
 import { callRequest, callRequestFileUpload } from '../../utils/ApiSauce';
 import { NavigationService } from '../../config';
 import { showSnackbar } from '../snackbar';
-import { GET_PRODUCTS, GET_PRODUCTS_BY_ID, failureProducts, failureProductById, successProductById, successProducts, ADD_TO_WISHLIST, successAddToWishlist, failureAddToWishlist, GET_WISHLIST, successGetWishlist, failureGetWishlist, REMOVE_FROM_WISHLIST, successRemoveFromWishlist, failureRemoveFromWishlist } from '.';
+import { GET_PRODUCTS, GET_PRODUCTS_BY_ID, failureProducts, failureProductById, successProductById, successProducts, ADD_TO_WISHLIST, successAddToWishlist, failureAddToWishlist, GET_WISHLIST, successGetWishlist, failureGetWishlist, REMOVE_FROM_WISHLIST, successRemoveFromWishlist, failureRemoveFromWishlist, UPDATE_VARIANT, successUpdateVariant } from '.';
 
 
 
 function* watchGetProducts(): any {
   while (true) {
     const { payload } = yield take(GET_PRODUCTS.REQUEST);
+    console.log('PRODUCTS PAYLOAD: ', payload)
     try {
       let response = yield call(callRequest, API_GET_PRODUCTS, payload);
+      console.log('PRODUCTS RESPONSE: ', response)
+
       if (response) {
         yield put(successProducts({ productList: response, fromProductListScreen: payload.fromProductListScreen }));
       }
@@ -27,11 +30,26 @@ function* watchGetProducts(): any {
   }
 }
 
+function* watchGetProductById(): any {
+  while (true) {
+    const { payload } = yield take(GET_PRODUCTS_BY_ID.REQUEST);
+    try {
+      let response = yield call(callRequest, API_GET_PRODUCT_BY_ID, {}, {}, payload.id);
+      if (response) {
+        yield put(successProductById(response.data));
+      }
+    } catch (error: any) {
+      yield put(failureProductById({ errorMessage: error }));
+      yield put(showSnackbar({message: error.message, type: 'error'}))
+    }
+  }
+}
+
 function* watchAddToWishlist(): any {
   while (true) {
     const { payload } = yield take(ADD_TO_WISHLIST.REQUEST);
     try {
-      let response = yield call(callRequest, API_ADD_TO_WISHLIST, payload);
+      let response = yield call(callRequest, API_ADD_TO_WISHLIST, {productId: payload.productId, variantId: payload.selectedVariantId});
       if (response.data) {
         yield put(successAddToWishlist())
         yield put(showSnackbar({ message: "Added to your wishlist.", type: "success" }));
@@ -74,6 +92,22 @@ function* watchRemoveFromWishList(): any {
   }
 }
 
+function* watchUpdateWishlist(): any {
+  while (true) {
+    const { payload } = yield take(UPDATE_VARIANT.REQUEST);
+    try {
+      let response = yield call(callRequest, API_UPDATE_VARIANT, {productId: payload.productId, variantId: payload.selectedVariantId});
+      if (response) {
+        yield put(successUpdateVariant(payload))
+        yield put(showSnackbar({ message: "Updated wishlist.", type: "success" }));
+      }
+    } catch (error: any) {
+      yield put(failureAddToWishlist({ errorMessage: error }));
+      yield put(showSnackbar({ message: error.message, type: 'error' }));
+    }
+  }
+}
+
 
 
 
@@ -82,4 +116,6 @@ export default function* root() {
   yield fork(watchAddToWishlist);
   yield fork(watchGetWishlist);
   yield fork(watchRemoveFromWishList);
+  yield fork(watchGetProductById);
+  yield fork(watchUpdateWishlist);
 }
