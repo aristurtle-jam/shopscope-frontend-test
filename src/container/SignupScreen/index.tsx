@@ -44,12 +44,11 @@ const SignupScreen = () => {
             dispatch(showSnackbar({ message: "All fields are required.", type: 'error' }));
             return; // Prevent the dispatch
         }
-        const cleanedCode = selectedCountry.replace('+', '');
         const payload = {
             firstName,
             lastName,
             email,
-            mobileNumber: cleanedCode + phone,
+            mobileNumber: selectedCountry + phone,
             password,
             confirmPassword
         };
