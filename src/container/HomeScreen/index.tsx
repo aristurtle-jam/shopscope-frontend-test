@@ -64,6 +64,7 @@ const HomeScreen = () => {
         const payload = {
             page: page,
             limit: 18,
+            search: '',
         };
         if (searchQuery.trim() !== '') {
             payload.search = searchQuery;
