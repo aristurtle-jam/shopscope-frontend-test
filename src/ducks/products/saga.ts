@@ -9,9 +9,6 @@ import { callRequest, callRequestFileUpload } from '../../utils/ApiSauce';
 import { NavigationService } from '../../config';
 import { showSnackbar } from '../snackbar';
 import { GET_PRODUCTS, GET_PRODUCTS_BY_ID, failureProducts, failureProductById, successProductById, successProducts, ADD_TO_WISHLIST, successAddToWishlist, failureAddToWishlist, GET_WISHLIST, successGetWishlist, failureGetWishlist, REMOVE_FROM_WISHLIST, successRemoveFromWishlist, failureRemoveFromWishlist, UPDATE_VARIANT, successUpdateVariant } from '.';
-import { tags } from 'react-native-svg/lib/typescript/xmlTags';
-
-
 
 function* watchGetProducts(): any {
   while (true) {
