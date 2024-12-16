@@ -19,7 +19,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { requestAddToWishlist, requestProducts } from '../../ducks/products';
 import Colors from '../../theme/Colors';
 import Swiper from 'react-native-deck-swiper';
-import { useFocusEffect } from '@react-navigation/native';
 import debounce from 'lodash.debounce';
 
 const HomeScreen = () => {

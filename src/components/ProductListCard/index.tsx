@@ -15,9 +15,9 @@ interface ProductListCardProps {
 	count?: number;
 	isSelected: boolean;
 	onPressDelete: any;
-	onPressAddToCart?: () => void;
-	onIncrement: () => void;
-	onDecrement: () => void;
+	onPressAddToCart: () => void;
+	onIncrement?: () => void;
+	onDecrement?: () => void;
 	cart?: boolean,
 	isInCart?: boolean
 }

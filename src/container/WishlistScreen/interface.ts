@@ -6,6 +6,17 @@ interface WishlistItem {
     price: number;
     discountCode: string;
     productId: number
+    product: {
+        variants: [{
+            title: string
+        }],
+        image: {
+            src: string
+        }
+        title: string
+    },
+    selectedVariantId: number,
+    selectedVariantIdPrice: number
 }
 
 export default WishlistItem;

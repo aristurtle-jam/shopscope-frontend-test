@@ -70,7 +70,7 @@ const WishlistScreen = () => {
     );
 
     const toggleItemSelection = (item: WishlistItem) => {
-        if (isInCart(item._id)) {
+        if (isInCart(item._id.toString())) {
             // setSelectedItems(selectedItems.filter((selectedItem) => selectedItem._id !== item.selectedVariantId));
             dispatch(successAddToCart({product: item, removeFromCart: true}))
         } else {
