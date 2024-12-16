@@ -1,6 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { makeRequesActions } from "../ActionTypes";
-import { all } from "redux-saga/effects";
 
 export const [
     GET_ALL_USERS,
@@ -8,6 +7,13 @@ export const [
     successAllUsers,
     failureAllUsers,
 ] = makeRequesActions('GET_ALL_USERS');
+
+export const [
+    ADD_SWIPED_LEFT,
+    requestAddSwipedLeft,
+    successAddSwipedLeft,
+    failureAddSwipedLeft,
+] = makeRequesActions('ADD_SWIPED_LEFT');
 
 
 const initialState = {
@@ -27,6 +33,12 @@ export default createReducer(initialState, (builder) => {
     builder.addCase(GET_ALL_USERS.FAILURE, (state, action) => {
         state.isLoading = false;
         state.error = action.payload.errorMessage; 
+    });
+    builder.addCase(ADD_SWIPED_LEFT.REQUEST, (state) => {
+        state.isLoading = true;
+    });
+    builder.addCase(ADD_SWIPED_LEFT.SUCCESS, (state) => {
+        state.isLoading = false;
     });
 });
 

@@ -1,7 +1,7 @@
 import { call, fork, put, takeEvery } from 'redux-saga/effects';
-import { API_GET_ALL_USERS } from '../../config/webService';
+import { API_GET_ALL_USERS, API_ADD_SWIPED_LEFT} from '../../config/webService';
 import { successAllUsers, failureAllUsers } from './index';
-import { GET_ALL_USERS } from './index';
+import { GET_ALL_USERS, ADD_SWIPED_LEFT } from './index';
 import { callRequest } from '../../utils/ApiSauce';
 
 function* fetchAllUsers(): any {
@@ -21,11 +21,42 @@ function* fetchAllUsers(): any {
     }
 }
 
+function* addSwipedLeft(action: any): any {
+    try {
+        const { productId } = action.payload; // Extract productId from the action
+        console.log("API route:", API_ADD_SWIPED_LEFT.route); // Log the complete URL before the request
+
+        // Make API call with only productId in the body
+        const response = yield call(
+            callRequest,
+            API_ADD_SWIPED_LEFT, // Correct API route
+            { productId }, // Only sending productId
+            { method: API_ADD_SWIPED_LEFT.type } // Ensure POST method
+        );
+
+        if (response?.success) {
+            console.log("Product successfully added to swiped left:", productId);
+        } else {
+            throw new Error(response?.message || "Failed to add product to swiped left.");
+        }
+    } catch (error: any) {
+        console.error("Add Swiped Left Error:", error);
+    }
+}
+
+
+
+
 
 function* watchGetAllUsers() {
   yield takeEvery(GET_ALL_USERS.REQUEST, fetchAllUsers); // Watch for the action
 }
 
+function* watchAddSwipedLeft() {
+    yield takeEvery(ADD_SWIPED_LEFT.REQUEST, addSwipedLeft); // Watch for the action
+}
+
 export default function* root() {
   yield fork(watchGetAllUsers); // Start the watcher saga
+  yield fork(watchAddSwipedLeft); // Start the watcher saga
 }

@@ -1,4 +1,3 @@
-
 export const IS_STAGING = false;
 
 export const STAGING_BASE_URL = 'http://192.168.1.8:3000';
@@ -20,7 +19,7 @@ export const API = '/api/';
 export const API_LOG = true;
 
 export const BASE_URL = () => {
-    return PRODUCTION_BASE_URL
+    return STAGING_BASE_URL
 };
 
 // AUHT API ROUTES
@@ -87,8 +86,6 @@ export const API_UPDATE_VARIANT = {
     access_token_required: true,
     type: REQUEST_TYPE.POST,
 }
-
-
 // POST API ROUTES
 
 export const API_CREATE_POST = {
@@ -212,3 +209,8 @@ export const API_GET_ALL_USERS = {
     type: REQUEST_TYPE.GET,
   };
 
+export const API_ADD_SWIPED_LEFT = {
+    route: `${API}customer/add-swiped-left`,
+    access_token_required: true,
+    type: REQUEST_TYPE.POST,
+  }

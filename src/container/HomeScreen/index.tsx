@@ -17,6 +17,7 @@ import SearchIcon from '../../assets/icons/search.svg';
 import { NavigationService } from '../../config';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestAddToWishlist, requestProducts } from '../../ducks/products';
+import { requestAddSwipedLeft } from '../../ducks/users';
 import Colors from '../../theme/Colors';
 import Swiper from 'react-native-deck-swiper';
 import debounce from 'lodash.debounce';
@@ -39,6 +40,15 @@ const HomeScreen = () => {
                 tags: productList.products[index].tags,
             };
             dispatch(requestAddToWishlist(payload));
+        }
+    };
+
+    const handleSwipeLeft = (index: number) => {
+        if (swiperRef.current && productList?.products?.length > 0) {
+            let payload = {
+                productId: productList.products[index].variants[0].product_id.toString(),
+            };
+            dispatch(requestAddSwipedLeft(payload));
         }
     };
 
@@ -133,6 +143,7 @@ const HomeScreen = () => {
                                 onTapCard={onTapCard}
                                 onSwipedAll={onSwipedAll}
                                 onSwipedRight={handleSwipeRight}
+                                onSwipedLeft={handleSwipeLeft}
                                 cardIndex={0}
                                 backgroundColor="white"
                                 stackSize={2}
