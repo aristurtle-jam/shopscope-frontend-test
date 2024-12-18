@@ -1,6 +1,6 @@
 export const IS_STAGING = false;
 
-export const STAGING_BASE_URL = 'http://192.168.1.8:3000';
+export const STAGING_BASE_URL = 'http://192.168.1.9:3000';
 export const PRODUCTION_BASE_URL = 'https://shopscope-backend-test.onrender.com';
 export const X_API_TOKEN = 'token';
 
@@ -19,7 +19,7 @@ export const API = '/api/';
 export const API_LOG = true;
 
 export const BASE_URL = () => {
-    return STAGING_BASE_URL
+    return PRODUCTION_BASE_URL
 };
 
 // AUHT API ROUTES

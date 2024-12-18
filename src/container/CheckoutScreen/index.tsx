@@ -25,14 +25,14 @@ const CheckoutScreen = () => {
     const cartList = useSelector((state: any) => state.cart.cartList);
     const totalPrice = useSelector((state: any) => state.cart.totalPrice);
     const profile = useSelector((state: any) => state.profile.myProfile)
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
-    const [address, setAddress] = useState();
-    const [phone, setPhone] = useState();
-    const [city, setCity] = useState();
-    const [province, setProvince] = useState();
-    const [country, setCountry] = useState();
-    const [zip, setZip] = useState();
+    const [firstName, setFirstName] = useState(profile.firstName);
+    const [lastName, setLastName] = useState(profile.lastName);
+    const [address, setAddress] = useState("");
+    const [phone, setPhone] = useState(profile.phone);
+    const [city, setCity] = useState("");
+    const [province, setProvince] = useState("");
+    const [country, setCountry] = useState("");
+    const [zip, setZip] = useState("");
 
     const onChangeFirstName = (val: any) => {
         setFirstName(val)
@@ -117,7 +117,6 @@ const CheckoutScreen = () => {
             })
         })
 
-
         let payload = {
             products: products,
             shippingAddress: {
@@ -132,8 +131,6 @@ const CheckoutScreen = () => {
             }
         }
         dispatch(requestCreateOrder({payload, profile}))
-
-
     }
 
     return (

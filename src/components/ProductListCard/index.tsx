@@ -15,7 +15,7 @@ interface ProductListCardProps {
 	count?: number;
 	isSelected: boolean;
 	onPressDelete: any;
-	onPressAddToCart: () => void;
+	onPressAddToCart?: () => void;
 	onIncrement?: () => void;
 	onDecrement?: () => void;
 	cart?: boolean,
@@ -103,7 +103,7 @@ const ProductListCard: React.FC<ProductListCardProps> = ({ item, count, isSelect
 					</View>
 					<View style={styles.row}>
 						<Text style={styles.priceText}>{`$ ${item.selectedVariantIdPrice}`}</Text>
-						<TouchableOpacity onPress={() => onPressAddToCart()} style={buttonStyle}>
+						<TouchableOpacity onPress={() => onPressAddToCart ? onPressAddToCart() : () => {}} style={buttonStyle}>
 							<Text style={styles.buttonText}>{addToCartText}</Text>
 						</TouchableOpacity>
 					</View>
