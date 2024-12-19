@@ -37,64 +37,78 @@ function serialize(obj: any) {
     }
     return str.join('&');
 }
-
 export async function callRequestFileUpload(uri: any, payload: any, parameter?: any) {
     let formData: FormData;
-    if (payload instanceof FormData) {
-        formData = payload;
-    }
-    else {
-        formData = new FormData();
-        const photo = { uri, type: 'image/jpeg', name: 'image.jpg' };
-        formData.append('file', photo);
-        Object.keys(payload).forEach(key => {
-            formData.append(key, payload[key]);
+
+    try {
+        // Initialize FormData
+        if (payload instanceof FormData) {
+            formData = payload;
+        } else {
+            formData = new FormData();
+            const photo = { uri, type: 'image/jpeg', name: 'image.jpg' };
+            formData.append('file', photo);
+            Object.keys(payload).forEach(key => {
+                formData.append(key, payload[key]);
+            });
+        }
+
+        // Define URL and headers
+        const url = uri;
+        const headers: any = {};
+        let { route, access_token_required, type } = url;
+        let method = 'POST'; // Default method is POST
+
+        if (type && type === REQUEST_TYPE.PUT) {
+            method = 'PUT';
+        }
+        route = parameter && parameter !== '' ? url.route + '/' + parameter : route;
+
+        // Add Authorization token if required
+        if (access_token_required) {
+            const token = DataHandler.getStore().getState().auth.token;
+            headers.token = token;
+        }
+        headers['Content-Type'] = 'multipart/form-data';
+        const headerObject = { headers };
+
+        // API Call
+        let response;
+        if (method === 'PUT') {
+            response = await api.put(route, formData, headerObject);
+        } else {
+            response = await api.post(route, formData, headerObject);
+        }
+
+        // Log response if in development mode
+        if (__DEV__ && API_LOG) {
+            console.log('URL:', url);
+            console.log('Response:', response);
+            console.log('FormData:', formData);
+            console.log('Headers:', headers);
+        }
+
+        // Handle the response
+        return handleResponse(response);
+
+    } catch (error: any) {
+        // Log the error details
+        console.error('Error during API call:', {
+            message: error.message,
+            responseData: error.response?.data,
+            responseStatus: error.response?.status,
+            request: error.request,
         });
+
+        // Re-throw or return structured error
+        throw new Error(
+            error.response?.data?.message || 
+            error.message || 
+            'Something went wrong with the API call'
+        );
     }
-
-    // Append additional payload data
-    
-
-    const url = uri;
-    const headers: any = {};
-
-    let { route, access_token_required, type } = url;
-    let method = 'POST'; // Default to POST
-
-    if (type && type === REQUEST_TYPE.PUT) {
-        method = 'PUT';
-    }
-    // Set Authorization header if access token is required
-    route =  parameter && parameter !== '' ? url.route + '/' + parameter : route;
-    if (access_token_required) {
-        const token = DataHandler.getStore().getState().auth.token;
-        headers.token = token;
-    }
-    headers['Content-Type'] = 'multipart/form-data';
-
-    const headerObject = { headers };
-
-    // Make the request with payload and headers
-    let response;
-
-    if (method === 'PUT') {
-        response = await api.put(route, formData, headerObject);
-
-    } else {
-        response = await api.post(route, formData, headerObject);
-    }
-
-    // Optional: Log the response for debugging purposes
-    if (__DEV__ && API_LOG) {
-        console.log('URL:', url);
-        console.log('Response:', response);
-        console.log('Payload:', formData);
-        console.log('Headers:', headers);
-    }
-
-    // Handle the response
-    return handleResponse(response);
 }
+
 
 export async function callRequest(url: any, payload: any, headers: any = {}, parameter = '') {
     // get attributes from url

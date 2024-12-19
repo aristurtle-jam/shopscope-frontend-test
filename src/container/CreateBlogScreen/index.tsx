@@ -91,23 +91,24 @@ const CreateBlogScreen = (props: any) => {
 
     const onPressPost = () => {
         const formData = new FormData();
-        formData.append('thumbNail', { uri: image, type: 'image/jpeg', name: 'thumbnail.jpg' });
-        products.forEach((product, index) => {
+        formData.append('thumbNail', { uri: Platform.OS === 'ios' ? image.replace('file://', '') : image, type: 'image/jpeg', name: 'thumbnail.jpg' });
+        products.forEach((product: any, index: any) => {
             formData.append(`products[${index}][id]`, product.productId.toString());
             formData.append(`products[${index}][image]`, product.productImage);
-            formData.append(`products[${index}][selectedVariantId]`, product.productVariantId.toString());
+            formData.append(`products[${index}][variantId]`, product.productVariantId.toString());
             formData.append(`products[${index}][imageId]`, product.productImageId.toString());
         });
+        console.log('creating...')
         dispatch(requestCreatePost(formData));
     }
 
     const onPressSave = () => {
         const formData = new FormData();
-        formData.append('thumbNail', { uri: image, type: 'image/jpeg', name: 'thumbnail.jpg' });
+        formData.append('thumbNail', { uri: Platform.OS === 'ios' ? image.replace('file://', '') : image, type: 'image/jpeg', name: 'thumbnail.jpg' });
         products.forEach((product, index) => {
             formData.append(`products[${index}][id]`, product.id ? product?.id.toString() : product.productId.toString());
             formData.append(`products[${index}][image]`, product.image ? product?.image : product.productImage);
-            formData.append(`products[${index}][selectedVariantId]`, product?.selectedVariantId ? product?.selectedVariantId.toString() : product.productVariantId.toString());
+            formData.append(`products[${index}][variantId]`, product?.selectedVariantId ? product?.selectedVariantId.toString() : product.productVariantId.toString());
             formData.append(`products[${index}][imageId]`, product?.imageId ? product?.imageId.toString() : product.productImageId.toString());
         });
         dispatch(requestEditPost({ formData: formData, id: postDetails._id }));
