@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
-    View, Image, Text, FlatList, TouchableOpacity, Modal, Alert, TouchableWithoutFeedback
+    View, Image, Text, FlatList, TouchableOpacity, Modal, Alert, TouchableWithoutFeedback,
+    Platform
 } from 'react-native';
 import styles from './styles';
 import Images from '../../theme/Images';
@@ -108,7 +109,8 @@ const Post = ({ item, detail, myProfile, postLikes, myLike }: { item: any, detai
                             <Text style={styles.postTime}>{timeAgo(post.createdAt)}</Text>
                         </View>
                     </TouchableOpacity>
-                    {myProfile === true && <View style={styles.menuIcon}>
+                    {myProfile === true && 
+                    <View style={styles.menuIcon}>
                         <Menu
                             visible={visible}
                             onDismiss={closeMenu}
@@ -119,6 +121,8 @@ const Post = ({ item, detail, myProfile, postLikes, myLike }: { item: any, detai
                         </Menu>
                     </View>}
                 </View>
+                {Platform.OS === 'ios' 
+                ?  
                 <FasterImageView
                     source={{
                         transitionDuration: 0.3,
@@ -128,6 +132,9 @@ const Post = ({ item, detail, myProfile, postLikes, myLike }: { item: any, detai
                         url: post.thumbNail,
                         resizeMode: 'cover'
                     }} style={styles.postImage} />
+                :
+                <Image source={{ uri: post.thumbNail }} resizeMode='cover' style={styles.postImage} />
+                }
                 <FlatList
                     data={post.products}
                     horizontal
